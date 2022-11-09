@@ -74,4 +74,11 @@ class TrackServiceImplTest {
         verify(trackRepository,times(1)).findById(any());
 
     }
+    @Test
+    public void deleteTrackFailure(){
+        when(trackRepository.findById(track1.getTrackId())).thenReturn(Optional.ofNullable(null));
+        assertThrows(TrackNotFoundException.class,()-> trackService.deleteTrack(track1.getTrackId()));
+        verify(trackRepository,times(0)).save(any());
+        verify(trackRepository,times(1)).findById(any());
+    }
 }
